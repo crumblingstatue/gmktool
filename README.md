@@ -1,5 +1,7 @@
 # gmktool
-Tool for manipulating Game Maker Studio data files
+Tool for manipulating Game Maker Studio data files.
+
+Powered by [rgmk](https://github.com/crumblingstatue/rgmk).
 
 ## Building
 gmktool is written in [Rust](https://www.rust-lang.org/).
