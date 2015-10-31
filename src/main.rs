@@ -13,36 +13,37 @@ fn main() {
 
 fn run() -> i32 {
     let strings_subcommand = SubCommand::with_name("strings")
-                             .about("Manipulate strings")
-                             .setting(AppSettings::SubcommandRequired)
-                             .setting(AppSettings::ArgRequiredElseHelp)
-                             .subcommand(SubCommand::with_name("dump")
-                                         .about("Dump strings.")
-                                         .args_from_usage("[OUTPUT_FILE] 'The file to write \
-                                                           the strings to. \
-                                                           By default, standard output.'"))
-                             .subcommand(SubCommand::with_name("repack")
-                                         .about("Repack strings")
-                                         .args_from_usage("[INPUT_FILE] 'The file containing \
-                                                           the strings to repack. \
-                                                           By default, standard input.'"));
+                                 .about("Manipulate strings")
+                                 .setting(AppSettings::SubcommandRequired)
+                                 .setting(AppSettings::ArgRequiredElseHelp)
+                                 .subcommand(SubCommand::with_name("dump")
+                                                 .about("Dump strings.")
+                                                 .args_from_usage("[OUTPUT_FILE] 'The file to \
+                                                                   write the strings to. By \
+                                                                   default, standard output.'"))
+                                 .subcommand(SubCommand::with_name("repack")
+                                                 .about("Repack strings")
+                                                 .args_from_usage("[INPUT_FILE] 'The file \
+                                                                   containing the strings to \
+                                                                   repack. By default, standard \
+                                                                   input.'"));
     let textures_subcommand = SubCommand::with_name("textures")
-                              .about("Manipulate textures")
-                              .setting(AppSettings::SubcommandRequired)
-                              .subcommand(SubCommand::with_name("dump")
-                                          .about("Dump textures"))
-                              .subcommand(SubCommand::with_name("repack")
-                                          .about("Repack textures"));
+                                  .about("Manipulate textures")
+                                  .setting(AppSettings::SubcommandRequired)
+                                  .subcommand(SubCommand::with_name("dump").about("Dump textures"))
+                                  .subcommand(SubCommand::with_name("repack")
+                                                  .about("Repack textures"));
     let matches = App::new("gmktool")
-                  .setting(AppSettings::SubcommandRequired)
-                  .version(env!("CARGO_PKG_VERSION"))
-                  .about("Tool for manipulating Game Maker Stdudio data files")
-                  .args_from_usage("-b --backup=[BACKUP_FILE] 'Create a backup. \
-                                    By default, it's DATA_FILE.bk'
-                                    <DATA_FILE> 'The game maker data file to operate on'")
-                  .subcommand(strings_subcommand)
-                  .subcommand(textures_subcommand)
-                  .get_matches();
+                      .setting(AppSettings::SubcommandRequired)
+                      .version(env!("CARGO_PKG_VERSION"))
+                      .about("Tool for manipulating Game Maker Stdudio data files")
+                      .args_from_usage("-b --backup=[BACKUP_FILE] 'Create a backup. By default, \
+                                        it's DATA_FILE.bk'
+                                    \
+                                        <DATA_FILE> 'The game maker data file to operate on'")
+                      .subcommand(strings_subcommand)
+                      .subcommand(textures_subcommand)
+                      .get_matches();
     let data_file_path = matches.value_of("DATA_FILE").unwrap();
     let backup = matches.is_present("backup");
     let backup_path = format!("{}.bk", data_file_path);
@@ -51,7 +52,10 @@ fn run() -> i32 {
         Ok(g) => g,
         Err(e) => {
             writeln!(stderr(),
-                     "Failed to load game data for {:?}: {}", data_file_path, e).unwrap();
+                     "Failed to load game data for {:?}: {}",
+                     data_file_path,
+                     e)
+                .unwrap();
             return 1;
         }
     };
@@ -89,8 +93,7 @@ fn run() -> i32 {
                     let file = match std::fs::File::open(path) {
                         Ok(f) => f,
                         Err(e) => {
-                            writeln!(stderr(), "Failed to open input file: {}", e)
-                                .unwrap();
+                            writeln!(stderr(), "Failed to open input file: {}", e).unwrap();
                             return 1;
                         }
                     };
@@ -133,7 +136,8 @@ fn dump_strings<W: Write>(game_data: &GameData, writer: &mut W) -> io::Result<()
 
 fn repack_strings<R: BufRead, P: AsRef<Path>>(game_data: &mut GameData,
                                               reader: &mut R,
-                                              path: P) -> io::Result<()> {
+                                              path: P)
+                                              -> io::Result<()> {
     for (s, l) in game_data.strings.strings.iter_mut().zip(reader.lines()) {
         *s = try!(l);
     }
