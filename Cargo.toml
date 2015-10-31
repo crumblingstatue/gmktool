@@ -1,0 +1,8 @@
+[package]
+authors = ["Mika Attila <radiantstatue@gmail.com>"]
+name = "gmktool"
+version = "0.1.0"
+
+[dependencies]
+clap = "1.4.6"
+rgmk = "0.2.0"
