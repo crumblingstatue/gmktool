@@ -8,6 +8,8 @@ You need to install the latest Rust **nightly** release.
 Once you have done that, you can build gmktool with `cargo build --release`
 
 ## Usage
+
+### Help
 ```
 gmktool 0.1.0
 Tool for manipulating Game Maker Stdudio data files
@@ -30,4 +32,12 @@ SUBCOMMANDS:
     strings     Manipulate strings
     textures    Manipulate textures
 
+```
+### Example usage
+```sh
+# Dump strings to strings.txt
+gmktool data.win strings dump strings.txt
+# Now edit them with a text editor or something.
+# And finally, repack the strings
+gmktool data.win strings repack strings.txt
 ```
