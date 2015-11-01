@@ -14,7 +14,7 @@ fn main() {
 fn run() -> i32 {
     let strings_subcommand = SubCommand::with_name("strings")
                                  .about("Manipulate strings")
-                                 .setting(AppSettings::SubcommandRequired)
+                                 .setting(AppSettings::SubcommandRequiredElseHelp)
                                  .setting(AppSettings::ArgRequiredElseHelp)
                                  .subcommand(SubCommand::with_name("dump")
                                                  .about("Dump strings.")
@@ -29,12 +29,12 @@ fn run() -> i32 {
                                                                    input.'"));
     let textures_subcommand = SubCommand::with_name("textures")
                                   .about("Manipulate textures")
-                                  .setting(AppSettings::SubcommandRequired)
+                                  .setting(AppSettings::SubcommandRequiredElseHelp)
                                   .subcommand(SubCommand::with_name("dump").about("Dump textures"))
                                   .subcommand(SubCommand::with_name("repack")
                                                   .about("Repack textures"));
     let matches = App::new("gmktool")
-                      .setting(AppSettings::SubcommandRequired)
+                      .setting(AppSettings::SubcommandRequiredElseHelp)
                       .version(env!("CARGO_PKG_VERSION"))
                       .about("Tool for manipulating Game Maker Stdudio data files")
                       .args_from_usage("-b --backup=[BACKUP_FILE] 'Create a backup. By default, \
