@@ -16,8 +16,8 @@ fn run() -> i32 {
                                  .about("Manipulate strings")
                                  .setting(AppSettings::SubcommandRequiredElseHelp)
                                  .setting(AppSettings::ArgRequiredElseHelp)
-                                 .subcommand(SubCommand::with_name("dump")
-                                                 .about("Dump strings.")
+                                 .subcommand(SubCommand::with_name("unpack")
+                                                 .about("Unpack strings.")
                                                  .args_from_usage("[OUTPUT_FILE] 'The file to \
                                                                    write the strings to. By \
                                                                    default, standard output.'"))
@@ -30,7 +30,8 @@ fn run() -> i32 {
     let textures_subcommand = SubCommand::with_name("textures")
                                   .about("Manipulate textures")
                                   .setting(AppSettings::SubcommandRequiredElseHelp)
-                                  .subcommand(SubCommand::with_name("dump").about("Dump textures"))
+                                  .subcommand(SubCommand::with_name("unpack")
+                                                  .about("Unpack textures"))
                                   .subcommand(SubCommand::with_name("repack")
                                                   .about("Repack textures"));
     let matches = App::new("gmktool")
@@ -61,7 +62,7 @@ fn run() -> i32 {
         }
     };
     if let Some(matches) = matches.subcommand_matches("strings") {
-        if let Some(matches) = matches.subcommand_matches("dump") {
+        if let Some(matches) = matches.subcommand_matches("unpack") {
             match matches.value_of("OUTPUT_FILE") {
                 Some(path) => {
                     let mut file = match std::fs::File::create(path) {
@@ -71,15 +72,15 @@ fn run() -> i32 {
                             return 1;
                         }
                     };
-                    if let Err(e) = dump_strings(&game_data, &mut file) {
-                        writeln!(stderr(), "Failed to dump strings: {}", e).unwrap();
+                    if let Err(e) = unpack_strings(&game_data, &mut file) {
+                        writeln!(stderr(), "Failed to unpack strings: {}", e).unwrap();
                     }
                 }
                 None => {
                     let stdout = stdout();
                     let mut lock = stdout.lock();
-                    if let Err(e) = dump_strings(&game_data, &mut lock) {
-                        writeln!(stderr(), "Failed to dump strings: {}", e).unwrap();
+                    if let Err(e) = unpack_strings(&game_data, &mut lock) {
+                        writeln!(stderr(), "Failed to unpack strings: {}", e).unwrap();
                     }
                 }
             }
@@ -114,9 +115,9 @@ fn run() -> i32 {
             }
         }
     } else if let Some(matches) = matches.subcommand_matches("textures") {
-        if let Some(_) = matches.subcommand_matches("dump") {
-            if let Err(e) = dump_textures(&game_data) {
-                writeln!(stderr(), "Failed to dump textures: {}", e).unwrap();
+        if let Some(_) = matches.subcommand_matches("unpack") {
+            if let Err(e) = unpack_textures(&game_data) {
+                writeln!(stderr(), "Failed to unpack textures: {}", e).unwrap();
                 return 1;
             }
         } else if let Some(_) = matches.subcommand_matches("repack") {
@@ -128,7 +129,7 @@ fn run() -> i32 {
     0
 }
 
-fn dump_strings<W: Write>(game_data: &GameData, writer: &mut W) -> io::Result<()> {
+fn unpack_strings<W: Write>(game_data: &GameData, writer: &mut W) -> io::Result<()> {
     for s in &game_data.strings.strings {
         try!(writeln!(writer, "{}", s));
     }
@@ -145,7 +146,7 @@ fn repack_strings<R: BufRead, P: AsRef<Path>>(game_data: &mut GameData,
     game_data.save_to_file(path)
 }
 
-fn dump_textures(game_data: &GameData) -> io::Result<()> {
+fn unpack_textures(game_data: &GameData) -> io::Result<()> {
     for (i, t) in game_data.textures.textures.iter().enumerate() {
         let path = format!("{}.png", i);
         let mut f = try!(std::fs::File::create(path));
