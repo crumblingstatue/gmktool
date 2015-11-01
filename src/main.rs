@@ -1,7 +1,7 @@
 extern crate rgmk;
 extern crate clap;
 
-use clap::{App, SubCommand, AppSettings};
+use clap::{App, SubCommand, AppSettings, Arg};
 use std::io::{self, stdin, stdout, stderr, BufReader};
 use std::io::prelude::*;
 use rgmk::GameData;
@@ -37,15 +37,16 @@ fn run() -> i32 {
                       .setting(AppSettings::SubcommandRequiredElseHelp)
                       .version(env!("CARGO_PKG_VERSION"))
                       .about("Tool for manipulating Game Maker Stdudio data files")
-                      .args_from_usage("-b --backup=[BACKUP_FILE] 'Create a backup. By default, \
-                                        it's DATA_FILE.bk'
-                                    \
-                                        <DATA_FILE> 'The game maker data file to operate on'")
+                      .arg(Arg::with_name("BACKUP")
+                               .short("b")
+                               .long("backup")
+                               .help("Create a backup (.bk) before writing to the data file."))
+                      .args_from_usage("<DATA_FILE> 'The game maker data file to operate on'")
                       .subcommand(strings_subcommand)
                       .subcommand(textures_subcommand)
                       .get_matches();
     let data_file_path = matches.value_of("DATA_FILE").unwrap();
-    let backup = matches.is_present("backup");
+    let backup = matches.is_present("BACKUP");
     let backup_path = format!("{}.bk", data_file_path);
     let backup_path = matches.value_of("BACKUP_FILE").unwrap_or(&backup_path);
     let mut game_data = match GameData::from_file(data_file_path) {
