@@ -2,18 +2,18 @@
 name = "gmktool"
 version = "0.1.0"
 dependencies = [
- "clap 1.4.6 (registry+https://github.com/rust-lang/crates.io-index)",
+ "clap 1.5.2 (registry+https://github.com/rust-lang/crates.io-index)",
  "rgmk 0.2.0 (registry+https://github.com/rust-lang/crates.io-index)",
 ]
 
 [[package]]
 name = "ansi_term"
-version = "0.6.3"
+version = "0.7.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 
 [[package]]
 name = "bitflags"
-version = "0.3.2"
+version = "0.3.3"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 
 [[package]]
@@ -23,12 +23,13 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 
 [[package]]
 name = "clap"
-version = "1.4.6"
+version = "1.5.2"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 dependencies = [
- "ansi_term 0.6.3 (registry+https://github.com/rust-lang/crates.io-index)",
- "bitflags 0.3.2 (registry+https://github.com/rust-lang/crates.io-index)",
+ "ansi_term 0.7.0 (registry+https://github.com/rust-lang/crates.io-index)",
+ "bitflags 0.3.3 (registry+https://github.com/rust-lang/crates.io-index)",
  "strsim 0.4.0 (registry+https://github.com/rust-lang/crates.io-index)",
+ "vec_map 0.4.0 (registry+https://github.com/rust-lang/crates.io-index)",
 ]
 
 [[package]]
@@ -61,6 +62,11 @@ dependencies = [
 
 [[package]]
 name = "strsim"
+version = "0.4.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+
+[[package]]
+name = "vec_map"
 version = "0.4.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 
