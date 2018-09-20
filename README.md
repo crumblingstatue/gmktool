@@ -1,3 +1,6 @@
+# NOTE: Currently this project is BROKEN and unmaintained. IT DOESN'T WORK.
+# Don't use it, unless you want to work on it.
+
 # gmktool
 Tool for manipulating Game Maker Studio data files.
 
