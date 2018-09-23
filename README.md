@@ -1,6 +1,6 @@
 # NOTE: Currently this project is BROKEN and unmaintained. IT DOESN'T WORK.
 # Don't use it, unless you want to work on it.
-# In the meantime, try https://github.com/fjay69/UndertaleTools
+# In the meantime, try https://github.com/krzys-h/UndertaleModTool
 
 # gmktool
 Tool for manipulating Game Maker Studio data files.
